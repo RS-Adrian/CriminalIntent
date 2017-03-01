@@ -38,9 +38,18 @@ public class CrimeLab {
 
     public void addCrime(Crime c) {
         ContentValues values = getContentValues(c);
-
         mDatabase.insert(CrimeTable.NAME, null, values);
     }
+
+    //BETA: adding a delete btn.
+    public void deleteCrime(Crime c){
+        String uuidString = c.getId().toString();
+
+        mDatabase.delete(CrimeTable.NAME,
+                CrimeTable.Cols.UUID + " = ?",
+                new String[]{uuidString});
+    }
+
 
     public List<Crime> getCrimes() {
         List<Crime> crimes = new ArrayList<>();

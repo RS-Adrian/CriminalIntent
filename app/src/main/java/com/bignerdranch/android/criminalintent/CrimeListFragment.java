@@ -28,9 +28,11 @@ public class CrimeListFragment extends Fragment {
     private CrimeAdapter mAdapter;
     private boolean mSubtitleVisible;
     private Callbacks mCallbacks;
+    private Crime mSelectedCrime;
 
     public interface Callbacks{
         void onCrimeSelected(Crime crime);
+        void onDeleteCrime(Crime crime);
     }
 
     //Warning: APP designed with old onAttach(Activity activity)
@@ -113,6 +115,13 @@ public class CrimeListFragment extends Fragment {
                 getActivity().invalidateOptionsMenu();
                 updateSubtitle();
                 return true;
+            case R.id.menu_item_delete_crime:
+                if(mSelectedCrime != null){
+                    mCallbacks.onDeleteCrime(mSelectedCrime);
+                }else {
+                    //Code for warning: no crime selected.
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -174,6 +183,8 @@ public class CrimeListFragment extends Fragment {
         @Override
         public void onClick(View v) {
             mCallbacks.onCrimeSelected(mCrime);
+            //Selected crime in case of Delete click.
+            mSelectedCrime = mCrime;
         }
     }
 
